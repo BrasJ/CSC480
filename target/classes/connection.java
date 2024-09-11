@@ -44,7 +44,7 @@ public class connection {
             //updateMeritBadge(scoutCollection);
 
             // Retrieve a specific field from a document as text
-            Bson getRankRequirements = eq("rank", "Star");
+            Bson getRankRequirements = eq("rank", "Eagle");
             for (Document docRank : database.getCollection("Rank").find(getRankRequirements)) {
                 String jsonRank = docRank.toJson();
                 ObjectMapper mapperRank = new ObjectMapper();
@@ -187,21 +187,21 @@ public class connection {
                 continue;
             }
             // Tab with /t
-            if(word.contains("/t")) {
-                while(word.contains("/t"))
-                    word = word.replaceFirst("/t", "\t");
+            if(word.contains("\t")) {
+                while(word.contains("\t"))
+                    word = word.replaceFirst("\t", "\t");
                 string += (word + " ");
+                currentLineLength = 0;
                 continue;
             }
-            //string += (word + " ");
-            // Auto warping
-            if(currentLineLength + word.length() + 1 <= 100) {
+            // Auto wrapping
+            if(currentLineLength + 1 <= 100) {
                 string += (word + " ");
                 currentLineLength += word.length() + 1;
             }
             else {
                 string += ("\n" + word + " ");
-                currentLineLength = word.length() + 1;
+                currentLineLength = 0;
             }
         }
         return string.trim();
